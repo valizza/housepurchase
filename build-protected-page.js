@@ -102,8 +102,8 @@ function renderGate(bundle) {
   @media(max-width:560px){.nav-brand{display:none}.nav-inner{gap:0;justify-content:center}
     .nav-tabs a{padding:0 11px;font-size:12.5px}}
   .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:24px}
-  .stage.unlocked{padding:0;align-items:stretch}
-  iframe{width:100%;height:100%;border:0;background:var(--paper);display:block}
+  .stage.unlocked{padding:0;display:block}
+  iframe{width:100%;border:0;background:var(--paper);display:block;min-height:70vh}
   .gate{background:var(--surface);border:1px solid var(--hair);border-radius:16px;
     padding:36px 32px;max-width:400px;width:100%;
     box-shadow:0 1px 2px rgba(27,33,28,.04),0 12px 32px rgba(27,33,28,.06)}
@@ -202,6 +202,31 @@ function renderGate(bundle) {
       stage.innerHTML = "";
       var frame = document.createElement("iframe");
       frame.setAttribute("title", "content");
+      frame.setAttribute("scrolling", "no");
+      // Size the iframe to its content so the page scrolls as one (nav sticky),
+      // avoiding percentage-height flex quirks that can collapse the frame.
+      frame.onload = function () {
+        function fit() {
+          try {
+            var doc = frame.contentDocument;
+            if (!doc) return;
+            var h = Math.max(
+              doc.body ? doc.body.scrollHeight : 0,
+              doc.documentElement ? doc.documentElement.scrollHeight : 0
+            );
+            if (h > 0) frame.style.height = h + "px";
+          } catch (e) {}
+        }
+        fit();
+        try {
+          var ro = new ResizeObserver(fit);
+          ro.observe(frame.contentDocument.documentElement);
+        } catch (e) {}
+        window.addEventListener("resize", fit);
+        // A couple of delayed passes catch late layout (fonts, dynamic render).
+        setTimeout(fit, 150);
+        setTimeout(fit, 600);
+      };
       stage.appendChild(frame);
       frame.srcdoc = html;
     } catch (ex) {
