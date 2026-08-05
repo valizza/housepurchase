@@ -86,7 +86,24 @@ function renderGate(bundle) {
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);
     font-family:'Inter',system-ui,sans-serif;line-height:1.5;
-    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    min-height:100vh;display:flex;flex-direction:column}
+  .nav{border-bottom:1px solid var(--hair);background:var(--paper);
+    position:sticky;top:0;z-index:20;flex:none}
+  .nav-inner{max-width:1040px;margin:0 auto;padding:0 clamp(16px,4vw,40px);
+    display:flex;align-items:center;gap:20px;height:56px}
+  .nav-brand{font-family:'Fraunces',serif;font-weight:500;font-size:16px;
+    letter-spacing:-.01em;color:var(--ink);white-space:nowrap}
+  .nav-tabs{display:flex;gap:2px;align-items:stretch;height:100%}
+  .nav-tabs a{display:inline-flex;align-items:center;padding:0 14px;font-size:13.5px;
+    font-weight:500;color:var(--muted);text-decoration:none;
+    border-bottom:2px solid transparent;transition:color .15s}
+  .nav-tabs a:hover{color:var(--ink)}
+  .nav-tabs a.active{color:var(--green-deep);border-bottom-color:var(--green-deep);font-weight:600}
+  @media(max-width:560px){.nav-brand{display:none}.nav-inner{gap:0;justify-content:center}
+    .nav-tabs a{padding:0 11px;font-size:12.5px}}
+  .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:24px}
+  .stage.unlocked{padding:0;align-items:stretch}
+  iframe{width:100%;height:100%;border:0;background:var(--paper);display:block}
   .gate{background:var(--surface);border:1px solid var(--hair);border-radius:16px;
     padding:36px 32px;max-width:400px;width:100%;
     box-shadow:0 1px 2px rgba(27,33,28,.04),0 12px 32px rgba(27,33,28,.06)}
@@ -106,23 +123,33 @@ function renderGate(bundle) {
   button:hover{background:var(--green)}
   button:disabled{opacity:.6;cursor:default}
   .err{color:var(--rust);font-size:13px;font-weight:500;margin:14px 0 0;min-height:18px}
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--paper)}
 </style>
 </head>
 <body>
-  <main class="gate" id="gate">
-    <p class="eyebrow">Protected</p>
-    <h1>Enter password</h1>
-    <p class="sub">This page is password protected. Please enter the password to continue.</p>
-    <form id="form" autocomplete="off">
-      <label for="pw">Password</label>
-      <div class="row">
-        <input type="password" id="pw" name="pw" autocomplete="current-password" autofocus>
-        <button type="submit" id="go">Unlock</button>
+  <nav class="nav">
+    <div class="nav-inner">
+      <span class="nav-brand">Condo planner</span>
+      <div class="nav-tabs">
+        <a href="./index.html">What we each put in</a>
+        <a href="./gap-planner.html" class="active">How much more do I need?</a>
       </div>
-      <p class="err" id="err" role="alert"></p>
-    </form>
-  </main>
+    </div>
+  </nav>
+  <div class="stage" id="stage">
+    <main class="gate" id="gate">
+      <p class="eyebrow">Protected</p>
+      <h1>Enter password</h1>
+      <p class="sub">This page is password protected. Please enter the password to continue.</p>
+      <form id="form" autocomplete="off">
+        <label for="pw">Password</label>
+        <div class="row">
+          <input type="password" id="pw" name="pw" autocomplete="current-password" autofocus>
+          <button type="submit" id="go">Unlock</button>
+        </div>
+        <p class="err" id="err" role="alert"></p>
+      </form>
+    </main>
+  </div>
 
 <script>
 (function(){
@@ -169,11 +196,13 @@ function renderGate(bundle) {
     go.disabled = true;
     try {
       var html = await decrypt(pw.value);
-      // Correct password: swap the whole document for the decrypted page.
+      // Correct password: render the decrypted page in the stage, keep the nav.
+      var stage = document.getElementById("stage");
+      stage.classList.add("unlocked");
+      stage.innerHTML = "";
       var frame = document.createElement("iframe");
       frame.setAttribute("title", "content");
-      document.body.innerHTML = "";
-      document.body.appendChild(frame);
+      stage.appendChild(frame);
       frame.srcdoc = html;
     } catch (ex) {
       // Wrong password fails GCM auth; no plaintext is ever exposed.
