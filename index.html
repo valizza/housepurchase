@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What we each put in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F5F1;
+    --surface:#FCFCFA;
+    --ink:#1B211C;
+    --green-deep:#23543E;
+    --green:#37795A;
+    --teal:#3E7C74;
+    --rust:#AD4A2F;
+    --amber:#B5822A;
+    --muted:#77807A;
+    --hair:#E1E2DB;
+    --hair-strong:#CFD1C8;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-feature-settings:"tnum" 1,"cv05" 1;
+    line-height:1.5;letter-spacing:-0.006em;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:clamp(20px,4vw,56px) clamp(16px,4vw,40px) 72px}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  header.top{margin-bottom:36px}
+  .eyebrow{
+    font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin:0 0 14px
+  }
+  h1{
+    font-family:'Fraunces',serif;font-optical-sizing:auto;
+    font-weight:500;font-size:clamp(34px,6vw,58px);line-height:1.02;
+    letter-spacing:-0.02em;margin:0 0 12px;max-width:14ch
+  }
+  .lede{max-width:56ch;color:#3c433d;font-size:clamp(15px,1.6vw,17px);margin:0}
+  .lede b{font-weight:600;color:var(--ink)}
+
+  /* ---- HERO: three scenario cards ---- */
+  .scenarios{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:40px 0 8px
+  }
+  .card{
+    background:var(--surface);border:1px solid var(--hair);border-radius:14px;
+    padding:22px 22px 20px;display:flex;flex-direction:column;min-width:0
+  }
+  .card .price{
+    font-size:13px;font-weight:600;letter-spacing:0.02em;color:var(--green-deep);
+    display:flex;align-items:baseline;gap:8px;margin-bottom:2px
+  }
+  .card .price .full{color:var(--muted);font-weight:450;font-size:12px}
+  .card .need-label{font-size:12.5px;color:var(--muted);margin:18px 0 4px}
+  .card .need{
+    font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4.4vw,40px);
+    line-height:1;letter-spacing:-0.02em;color:var(--green-deep)
+  }
+  .card .need.small{font-size:26px}
+
+  .bar{height:12px;border-radius:7px;overflow:hidden;display:flex;background:#EDEEE8;margin:20px 0 12px}
+  .bar span{display:block;height:100%}
+  .seg-cash{background:var(--green-deep)}
+  .seg-cpf{background:var(--teal)}
+  .seg-gap{background:var(--rust);opacity:.92}
+
+  .legend{display:flex;flex-direction:column;gap:6px;font-size:12.5px;margin-top:2px}
+  .legend .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .legend .k{display:flex;align-items:center;gap:8px;color:#495049}
+  .dot{width:9px;height:9px;border-radius:3px;flex:none}
+  .dot.cash{background:var(--green-deep)}.dot.cpf{background:var(--teal)}.dot.gap{background:var(--rust)}
+  .legend .v{font-weight:600}
+
+  /* ---- split block inside each card ---- */
+  .split-block{margin-top:16px;border-top:1px solid var(--hair);padding-top:13px;display:flex;flex-direction:column;gap:7px;font-size:12.5px}
+  .split-block .split-head{font-weight:600;color:var(--ink);letter-spacing:.01em;margin-bottom:1px}
+  .split-block .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .split-block .k{color:#495049}
+  .split-block .v{font-weight:600}
+  .split-block .row.minc{border-top:1px solid var(--hair);padding-top:9px;margin-top:1px}
+  .split-block .row.minc .k,.split-block .row.minc .v{color:var(--muted);font-weight:500}
+  .split-block .subrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-left:13px;font-size:11.5px;color:var(--muted)}
+  .split-block .subrow .tnum{font-variant-numeric:tabular-nums}
+
+  /* ---- input panels ---- */
+  .panels{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .panel{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:22px 22px 8px}
+  .panel.full{grid-column:1 / -1}
+  .panel h2{
+    font-family:'Fraunces',serif;font-weight:500;font-size:20px;letter-spacing:-0.01em;
+    margin:0 0 4px
+  }
+  .panel .sub{font-size:12.5px;color:var(--muted);margin:0 0 18px}
+  .field{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid var(--hair)}
+  .field:last-of-type{border-bottom:none}
+  .field label{font-size:13.5px;color:#3c433d}
+  .field .hint{display:block;font-size:11.5px;color:var(--muted);margin-top:1px}
+  .field .inwrap{position:relative;flex:none}
+  .field .cur{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+  input[type=number],input[type=text]{
+    font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;
+    width:148px;padding:8px 11px 8px 22px;border:1px solid var(--hair-strong);border-radius:8px;
+    background:#fff;font-size:14px;color:var(--ink);text-align:right;-moz-appearance:textfield
+  }
+  input.nocur{padding-left:11px;width:96px}
+  input.pct{padding-right:28px;width:84px}
+  input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  input:focus{outline:2px solid var(--green);outline-offset:1px;border-color:var(--green)}
+
+  .pools{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:8px}
+  @media(max-width:760px){
+    .scenarios{grid-template-columns:1fr}
+    .panels{grid-template-columns:1fr}
+    .pools{grid-template-columns:1fr}
+    input[type=number]{width:130px}
+  }
+  .footnote{margin-top:40px;font-size:12px;color:var(--muted);line-height:1.65;border-top:1px solid var(--hair);padding-top:18px}
+  .footnote b{color:#3c433d;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Co-buyer split planner · as of 5 Aug 2026</p>
+    <h1>What we each put in</h1>
+    <p class="lede">The full upfront cost of a new-launch condo at three price points, and <b>how it splits between two co-buyers</b> — plus the monthly loan once you're in. Every number below is editable; the cards update as you type.</p>
+  </header>
+
+  <!-- HERO -->
+  <section class="scenarios" id="scenarios" aria-label="Upfront cost by price"></section>
+
+  <!-- INPUTS -->
+  <div class="panels">
+
+    <section class="panel full">
+      <h2>The condo — assumptions</h2>
+      <p class="sub">First property · 75% loan-to-value · 25% down payment (min. 5% cash) · BSD auto-calculated on IRAS tiers · ABSD 0%.</p>
+      <div class="pools">
+        <div>
+          <div class="field"><label>Price 1</label><div class="inwrap"><span class="cur">$</span><input type="text" inputmode="numeric" class="money" id="price0" value="2,800,000"></div></div>
+          <div class="field"><label>Price 2</label><div class="inwrap"><span class="cur">$</span><input type="text" inputmode="numeric" class="money" id="price1" value="3,000,000"></div></div>
+          <div class="field" style="border-bottom:none"><label>Price 3</label><div class="inwrap"><span class="cur">$</span><input type="text" inputmode="numeric" class="money" id="price2" value="3,200,000"></div></div>
+        </div>
+        <div>
+          <div class="field"><label>Your share of the split<span class="hint">50% if split evenly with your co-buyer</span></label><div class="inwrap"><input class="nocur pct" type="number" step="1" id="sharePct" value="50"><span style="position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none">%</span></div></div>
+          <div class="field" style="border-bottom:none"><label>ABSD rate<span class="hint">Locked — first property</span></label><div class="inwrap" style="display:flex;align-items:center;gap:7px;justify-content:flex-end"><span style="font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums">0%</span><svg width="12" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" aria-label="locked"><rect x="4.5" y="11" width="15" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div></div>
+        </div>
+        <div style="align-self:center;font-size:12.5px;color:var(--muted);line-height:1.7">
+          <b style="color:#3c433d">How each price breaks down</b><br>
+          Down payment 25% + Buyer's Stamp Duty is the upfront both of you fund. The 5% minimum-cash slice must be cash — CPF can't cover it. Adjust the split above to change how the upfront and the monthly loan divide between the two of you.
+        </div>
+      </div>
+    </section>
+
+    <section class="panel full">
+      <h2>Financing — repaid monthly to the bank</h2>
+      <p class="sub">The 75% you don't pay upfront is the bank's loan — separate from the upfront cost above. It disburses progressively: the first <b>5% is drawn at foundation stage</b>, which is when monthly repayments begin, and the whole loan is paid back monthly with interest over the tenure.</p>
+      <div class="pools" style="align-items:start">
+        <div class="field" style="border-bottom:none"><label>Interest rate (p.a.)<span class="hint">Indicative 2026 fixed rate</span></label><div class="inwrap"><input class="nocur pct" type="number" step="0.05" id="intRate" value="2.5"><span style="position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none">%</span></div></div>
+        <div class="field" style="border-bottom:none"><label>Loan tenure<span class="hint">Up to 30 yrs to keep 75% LTV</span></label><div class="inwrap"><input class="nocur" type="number" step="1" id="tenureYrs" value="30" style="width:92px;padding-right:38px"><span style="position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none">yrs</span></div></div>
+        <div style="align-self:center;font-size:12.5px;color:var(--muted);line-height:1.7">
+          <b style="color:#3c433d">Note</b><br>
+          The 5% foundation drawdown isn't an extra cost — it's the first slice of the 75% loan. Instalments start small (interest only on what's drawn so far) and rise as construction draws down more.
+        </div>
+      </div>
+      <div class="scenarios" id="financing" style="margin:22px 0 6px"></div>
+    </section>
+
+  </div>
+
+  <p class="footnote">
+    <b>Notes.</b> BSD uses the IRAS residential tiers in force since Feb 2023 (1% / 2% / 3% / 4% / 5% / 6%). The model assumes a first bank loan at the 75% LTV cap, so 25% down with a 5% cash minimum, and ABSD at 0% (first property). The 5% must be cash — CPF can't cover it; the remaining 20% down and the stamp duty can come from CPF OA (on a new launch, BSD is often paid in cash first and reimbursed from CPF). Upfront and monthly figures divide by the split you set above. This is a planning tool, not financial advice — confirm final figures with your banker and conveyancer.
+  </p>
+
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var fmt=function(n){
+    if(!isFinite(n))n=0;
+    return '$'+n.toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2});
+  };
+  var fmt0=function(n){if(!isFinite(n))n=0;return '$'+Math.round(n).toLocaleString('en-SG');};
+  var val=function(id){var v=parseFloat(String($(id).value).replace(/,/g,''));return isFinite(v)?v:0;};
+
+  function bsd(p){
+    var tiers=[[180000,0.01],[180000,0.02],[640000,0.03],[500000,0.04],[1500000,0.05]];
+    var t=0,rem=p;
+    for(var i=0;i<tiers.length;i++){
+      var band=Math.min(rem,tiers[i][0]);
+      if(band<=0)break;
+      t+=band*tiers[i][1];rem-=band;
+    }
+    if(rem>0)t+=rem*0.06;
+    return t;
+  }
+
+  function pct(x,total){return total>0?Math.max(0,Math.min(100,x/total*100)):0;}
+
+  function monthlyPayment(P,annualPct,years){
+    var r=annualPct/100/12, n=Math.round(years*12);
+    if(n<=0)return 0;
+    if(r===0)return P/n;
+    return P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  }
+
+  function render(){
+    var splitPct=val('sharePct')/100;
+    var otherPct=1-splitPct;
+    var absd=0;
+    var yourP=Math.round(splitPct*100), theirP=Math.round(otherPct*100);
+
+    // ---- upfront cost + split cards ----
+    var host=$('scenarios');host.innerHTML='';
+    ['price0','price1','price2'].forEach(function(pid){
+      var P=val(pid);
+      var down=0.25*P;
+      var duty=bsd(P);
+      var absdAmt=absd*P;
+      var totalUpfront=down+duty+absdAmt;
+      var cashMin=0.05*P;                 // must be cash — CPF can't cover
+      var cpfElig=totalUpfront-cashMin;   // 20% down + BSD — CPF or cash
+      var yourTotal=totalUpfront*splitPct, theirTotal=totalUpfront-yourTotal;
+      var yourCash=cashMin*splitPct,       theirCash=cashMin-yourCash;
+      var yourCpf=cpfElig*splitPct,        theirCpf=cpfElig-yourCpf;
+
+      var priceM=(P/1e6).toFixed(2);
+      var card=document.createElement('div');
+      card.className='card';
+      card.innerHTML=
+        '<div class="price">$'+priceM+'M condo <span class="full tnum">'+fmt(P).replace('.00','')+'</span></div>'+
+        '<div class="need-label">Total upfront — down payment + duties</div>'+
+        '<div class="need'+(totalUpfront>=1000000?' small':'')+'">'+fmt0(totalUpfront)+'</div>'+
+        '<div class="bar" role="img" aria-label="cash vs CPF">'+
+          '<span class="seg-cash" style="width:'+pct(cashMin,totalUpfront)+'%"></span>'+
+          '<span class="seg-cpf" style="width:'+pct(cpfElig,totalUpfront)+'%"></span>'+
+        '</div>'+
+        '<div class="legend">'+
+          '<div class="row"><span class="k"><span class="dot cash"></span>Cash — min 5%</span><span class="v tnum">'+fmt0(cashMin)+'</span></div>'+
+          '<div class="row"><span class="k"><span class="dot cpf"></span>CPF or cash — the rest</span><span class="v tnum">'+fmt0(cpfElig)+'</span></div>'+
+        '</div>'+
+        '<div class="split-block">'+
+          '<div class="split-head">Split '+yourP+'/'+theirP+' · upfront per person</div>'+
+          '<div class="row"><span class="k">Your share ('+yourP+'%)</span><span class="v tnum" style="color:var(--green-deep)">'+fmt0(yourTotal)+'</span></div>'+
+          '<div class="subrow"><span>· cash (5%)</span><span class="tnum">'+fmt0(yourCash)+'</span></div>'+
+          '<div class="subrow"><span>· CPF or cash</span><span class="tnum">'+fmt0(yourCpf)+'</span></div>'+
+          '<div class="row" style="margin-top:5px"><span class="k">Their share ('+theirP+'%)</span><span class="v tnum" style="color:var(--teal)">'+fmt0(theirTotal)+'</span></div>'+
+          '<div class="subrow"><span>· cash (5%)</span><span class="tnum">'+fmt0(theirCash)+'</span></div>'+
+          '<div class="subrow"><span>· CPF or cash</span><span class="tnum">'+fmt0(theirCpf)+'</span></div>'+
+        '</div>';
+      host.appendChild(card);
+    });
+
+    // ---- financing (bank loan, monthly) ----
+    var rate=val('intRate'), yrs=val('tenureYrs');
+    var fhost=$('financing');fhost.innerHTML='';
+    ['price0','price1','price2'].forEach(function(pid){
+      var P=val(pid);
+      var loan=0.75*P, firstDraw=0.05*P, m=monthlyPayment(loan,rate,yrs);
+      var yourM=m*splitPct, theirM=m-yourM;
+      var priceM=(P/1e6).toFixed(2);
+      var c=document.createElement('div');
+      c.className='card';
+      c.innerHTML=
+        '<div class="price">$'+priceM+'M condo</div>'+
+        '<div class="legend" style="margin-top:16px;gap:10px">'+
+          '<div class="row"><span class="k">Bank loan (75%)</span><span class="v tnum">'+fmt0(loan)+'</span></div>'+
+          '<div class="row"><span class="k"><span class="dot" style="background:var(--amber)"></span>First drawdown, foundation (5%)</span><span class="v tnum" style="color:var(--amber)">'+fmt0(firstDraw)+'</span></div>'+
+          '<div class="row" style="border-top:1px solid var(--hair);padding-top:10px;margin-top:2px"><span class="k">Est. monthly, full loan</span><span class="v tnum">'+fmt0(m)+'/mo</span></div>'+
+          '<div class="row" style="border-top:1px solid var(--hair-strong);padding-top:11px;margin-top:3px"><span class="k" style="font-weight:600;color:var(--ink);letter-spacing:.01em">Split '+yourP+'/'+theirP+' · per month</span><span></span></div>'+
+          '<div class="row"><span class="k">Your monthly ('+yourP+'%)</span><span class="v tnum" style="color:var(--green-deep)">'+fmt0(yourM)+'/mo</span></div>'+
+          '<div class="row"><span class="k">Their monthly ('+theirP+'%)</span><span class="v tnum" style="color:var(--teal)">'+fmt0(theirM)+'/mo</span></div>'+
+        '</div>';
+      fhost.appendChild(c);
+    });
+  }
+
+  document.querySelectorAll('input').forEach(function(el){
+    el.addEventListener('input',render);
+    el.addEventListener('change',render);
+  });
+  ['price0','price1','price2'].forEach(function(id){
+    $(id).addEventListener('change',function(){
+      var n=parseFloat(String(this.value).replace(/,/g,''));
+      if(isFinite(n))this.value=Math.round(n).toLocaleString('en-US');
+      render();
+    });
+  });
+  render();
+})();
+</script>
+</body>
+</html>
