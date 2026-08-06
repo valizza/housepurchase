@@ -1,0 +1,6 @@
+# Plaintext source for the password-gated page — never commit.
+# The repo is public; only the encrypted gap-planner.html is published.
+# Rebuild with: node build-protected-page.js gap-planner.src.html gap-planner.html <password>
+gap-planner.src.html
+
+.DS_Store
